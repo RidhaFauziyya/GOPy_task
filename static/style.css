@@ -1,0 +1,104 @@
+:root {
+  --blue: #5e72e4;
+  --indigo: #5603ad;
+  --purple: #8965e0;
+  --pink: #f3a4b5;
+  --red: #f5365c;
+  --orange: #fb6340;
+  --yellow: #ffd600;
+  --green: #2dce89;
+  --teal: #11cdef;
+  --cyan: #2bffc6;
+  --white: #fff;
+  --gray: #8898aa;
+  --gray-dark: #32325d;
+  --light: #ced4da;
+  --lighter: #e9ecef;
+  --primary: #FFD54F;
+  --secondary: #29434E;
+  --accent: #E1F5FE;
+  --success: #2dce89;
+  --info: #11cdef;
+  --warning: #fb6340;
+  --danger: #f5365c;
+  --light: #adb5bd;
+  --dark: #212529;
+  --default: #172b4d;
+  --white: #fff;
+  --neutral: #fff;
+  --darker: black;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: Open Sans, sans-serif;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+.bg-main{
+    background-color: var(--primary);
+}
+
+.bg-primary{
+  background-color: var(--secondary) !important;
+}
+
+.btn-primary{
+  background-color: var(--secondary);
+  color: white;
+}
+
+.btn-primary:hover{
+  background-color: var(--primary);
+  border: none;
+  color: var(--secondary);
+}
+
+.url-text a {
+  color: black !important;
+  text-decoration: none;
+}
+
+.url-text :hover{
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.weather-widget {
+  max-width: auto;
+  background: linear-gradient(135deg, #6fb1fc, #4364f7);
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.weather-table {
+  max-width: auto;
+  margin: auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+}
+
+.icon {
+    font-size: 20px;
+  }
+
+.weather-icon {
+  font-size: 60px;
+}
+.temp {
+  font-size: 48px;
+  font-weight: 700;
+}
+.location {
+  font-size: 20px;
+  font-weight: 600;
+}
+.weather-desc {
+  font-style: italic;
+  text-transform: capitalize;
+}
+.additional-info {
+  font-size: 14px;
+}

@@ -1,0 +1,113 @@
+{% extends 'layouts/app.html' %} {% block title %}Login{% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+<div class="py-4 my-5 mx-5 px-3 px-lg-5">
+  {% with messages = get_flashed_messages(with_categories=true) %} {% for
+  category, message in messages %}
+  <div
+    class="alert alert-{{ 'success' if category == 'success' else 'danger' }}"
+    role="alert"
+  >
+    {{ message }}
+  </div>
+  {% endfor %} {% endwith %}
+
+  <div
+    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
+  >
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4>Lihat Perkiraan Cuaca</h4>
+        </div>
+        <div class="card-body px-lg-5 py-lg-3">
+          <form method="GET" action="/">
+            <div class="form-group mb-3">
+              <label for="city" class="form-label">Kota:</label>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">
+                  <i class="bi bi-geo-alt"></i>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Masukkan nama kota"
+                  name="city"
+                />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Lihat Cuaca</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="weather-widget shadow ml-lg-5 py-4 px-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <div class="location">{{ current.city }}</div>
+            <div>{{ current.time }}</div>
+            <div class="weather-desc">
+              {%- if current.current_rain > 0 %} Hujan {%- elif
+              current.temperature >= 30 %} Panas Terik {%- elif
+              current.temperature >= 20 %} Cerah Berawan {%- else %} Dingin {%-
+              endif %}
+            </div>
+          </div>
+          <div class="weather-icon">
+            {%- if current.current_rain > 0 %} 🌧️ {%- elif current.temperature
+            >= 30 %} ☀️ {%- elif current.temperature >= 20 %} ⛅ {%- else %} ❄️
+            {%- endif %}
+          </div>
+        </div>
+        <div class="temp">{{ current.temperature }}°C</div>
+        <div class="d-flex justify-content-between mt-4 additional-info">
+          <div>Apparent: {{ current.apparent_temperature }}°C</div>
+          <div>Humidity: {{ current.humidity }}%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="justify-content-center">
+    <div class="weather-table table-responsive shadow p-4 mt-5">
+      <h4 class="mb-4 text-center">Ramalan Cuaca 3 Hari</h4>
+      <table
+        class="table table-sm table-striped table-hover align-middle text-center"
+      >
+        <thead class="table-primary">
+          <tr>
+            <th>Hari</th>
+            <th>Suhu Terendah(&deg;C)</th>
+            <th>Suhu Tertinggi(&deg;C)</th>
+            <th>Cuaca</th>
+            <th>Suhu Siang Hari(&deg;C)</th>
+            <th>Suhu Malam Hari(&deg;C)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for day in forecast %}
+          <tr>
+            <td>{{ day.date }}</td>
+            <td>{{ day.temperature_2m_min }}</td>
+            <td>{{ day.temperature_2m_max }}</td>
+            <td class="icon">
+              {% if day.rain_sum > 0 %} 🌧️ Hujan {% elif day.temperature_2m_max
+              >= 30 %} ☀️ Panas {% elif day.temperature_2m_max >= 20 %} ⛅ Cerah
+              Berawan {% else %} ❄️ Dingin {% endif %}
+            </td>
+            <td>{{ day.day_temp }}</td>
+            <td>{{ day.night_temp }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

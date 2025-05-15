@@ -1,0 +1,102 @@
+{% extends 'layouts/app.html' %} {% block title %}Kuis{% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %} {% block content %}
+<div class="py-4 my-5 mx-5 px-3 px-lg-5">
+  <div
+    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
+  >
+    <div class="col-lg-6">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% for
+      category, message in messages %}
+      <div
+        class="alert alert-{{ 'success' if category == 'success' else 'danger' }}"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endwith %}
+      <div class="card">
+        <div class="card-header bg-main text-white">
+          <h3>QUIZ</h3>
+        </div>
+        <div class="text-center text-muted my-4">
+          <h5>Skor mu saat ini: {{ user.score }}</h5>
+        </div>
+        <div class="card-body px-lg-5 py-lg-3">
+          <form method="POST" action="/quiz">
+            <p>{{ questions.question }}</p>
+            <div class="form-group mb-3">
+              <div class="input-group mb-3">
+                <input type="radio" name="answer" value="A" required /> {{
+                questions.option_a }}<br />
+              </div>
+              <div class="input-group mb-3">
+                <input type="radio" name="answer" value="B" required /> {{
+                questions.option_b }}<br />
+              </div>
+              <div class="input-group mb-3">
+                <input type="radio" name="answer" value="C" required /> {{
+                questions.option_c }}<br />
+              </div>
+              <div class="input-group mb-3">
+                <input type="radio" name="answer" value="D" required /> {{
+                questions.option_d }}<br />
+              </div>
+              <input
+                type="hidden"
+                name="question_id"
+                value="{{ questions.id }}"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
+  >
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header bg-primary text-white py-lg-3">
+          <h3 class="text-center">
+            <i class="bi bi-trophy-fill text-warning"></i> Papan Peringkat
+          </h3>
+        </div>
+
+        <div class="table-responsive">
+          <table
+            class="table table-bordered table-hover table-striped text-center"
+          >
+            <thead class="table-primary">
+              <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Skor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for player in leaderboard %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ player.username }}</td>
+                <td>
+                  <i class="bi bi-star-fill text-warning"></i> {{ player.score
+                  }}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}
