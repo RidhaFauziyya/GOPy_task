@@ -18,7 +18,7 @@ db.init_app(app)
 
 @app.route("/")
 def cuaca():
-    city = request.args.get('city', 'Yogyakarta')
+    city = request.args.get('city', 'Surabaya')
 
     city_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1"
     city_response = requests.get(city_url).json()
