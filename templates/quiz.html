@@ -2,95 +2,123 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %} {% block content %}
-<div class="py-4 my-5 mx-5 px-3 px-lg-5">
+<div class="container py-5">
+  <!-- Flash Message -->
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
   <div
-    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
+    class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow-sm rounded-4 border-0"
   >
-    <div class="col-lg-6">
-      {% with messages = get_flashed_messages(with_categories=true) %} {% for
-      category, message in messages %}
-      <div
-        class="alert alert-{{ 'success' if category == 'success' else 'danger' }}"
-        role="alert"
-      >
-        {{ message }}
-      </div>
-      {% endfor %} {% endwith %}
-      <div class="card">
-        <div class="card-header bg-main text-white">
-          <h3>QUIZ</h3>
+    {{ message }}
+    <button class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-main">🧠 GoPy Quiz</h1>
+
+    <p class="text-muted">
+      Uji pengetahuanmu tentang Python dan kumpulkan skor tertinggi.
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Quiz -->
+    <div class="col-lg-7">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-header bg-main text-white py-4 rounded-top-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">
+              <i class="bi bi-patch-question-fill me-2"></i>
+              Quiz
+            </h3>
+
+            <span class="badge bg-warning text-dark fs-6">
+              ⭐ {{ user.score }}
+            </span>
+          </div>
         </div>
-        <div class="text-center text-muted my-4">
-          <h5>Skor mu saat ini: {{ user.score }}</h5>
-        </div>
-        <div class="card-body px-lg-5 py-lg-3">
+
+        <div class="card-body p-4 p-lg-5">
+          <h4 class="fw-bold mb-4">{{ questions.question }}</h4>
+
           <form method="POST" action="/quiz">
-            <p>{{ questions.question }}</p>
-            <div class="form-group mb-3">
-              <div class="input-group mb-3">
-                <input type="radio" name="answer" value="A" required /> {{
-                questions.option_a }}<br />
-              </div>
-              <div class="input-group mb-3">
-                <input type="radio" name="answer" value="B" required /> {{
-                questions.option_b }}<br />
-              </div>
-              <div class="input-group mb-3">
-                <input type="radio" name="answer" value="C" required /> {{
-                questions.option_c }}<br />
-              </div>
-              <div class="input-group mb-3">
-                <input type="radio" name="answer" value="D" required /> {{
-                questions.option_d }}<br />
-              </div>
-              <input
-                type="hidden"
-                name="question_id"
-                value="{{ questions.id }}"
-              />
+            <div class="d-grid gap-3">
+              <label class="quiz-option">
+                <input type="radio" name="answer" value="A" required />
+
+                <span>{{ questions.option_a }}</span>
+              </label>
+
+              <label class="quiz-option">
+                <input type="radio" name="answer" value="B" />
+
+                <span>{{ questions.option_b }}</span>
+              </label>
+
+              <label class="quiz-option">
+                <input type="radio" name="answer" value="C" />
+
+                <span>{{ questions.option_c }}</span>
+              </label>
+
+              <label class="quiz-option">
+                <input type="radio" name="answer" value="D" />
+
+                <span>{{ questions.option_d }}</span>
+              </label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <input
+              type="hidden"
+              name="question_id"
+              value="{{ questions.id }}"
+            />
+
+            <button class="btn btn-primary btn-lg w-100 mt-4">
+              <i class="bi bi-send-fill me-2"></i>
+
+              Submit Jawaban
+            </button>
           </form>
         </div>
       </div>
     </div>
-  </div>
 
-  <div
-    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
-  >
-    <div class="container mt-5">
-      <div class="card">
-        <div class="card-header bg-primary text-white py-lg-3">
-          <h3 class="text-center">
-            <i class="bi bi-trophy-fill text-warning"></i> Papan Peringkat
-          </h3>
+    <!-- Leaderboard -->
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-warning text-dark py-4 rounded-top-4">
+          <h3 class="text-center mb-0">🏆 Leaderboard</h3>
         </div>
 
-        <div class="table-responsive">
-          <table
-            class="table table-bordered table-hover table-striped text-center"
+        <div class="card-body p-0">
+          {% for player in leaderboard %}
+
+          <div
+            class="leaderboard-item d-flex justify-content-between align-items-center px-4 py-3"
           >
-            <thead class="table-primary">
-              <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th>Skor</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for player in leaderboard %}
-              <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ player.username }}</td>
-                <td>
-                  <i class="bi bi-star-fill text-warning"></i> {{ player.score
-                  }}
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+            <div>
+              {% if loop.index == 1 %} 🥇 {% elif loop.index == 2 %} 🥈 {% elif
+              loop.index == 3 %} 🥉 {% else %}
+              <strong>#{{ loop.index }}</strong>
+              {% endif %}
+            </div>
+
+            <div class="flex-grow-1 ms-3">
+              <strong> {{ player.username }} </strong>
+            </div>
+
+            <span
+              class="badge {% if loop.index == 1 %} bg-warning text-dark {% elif loop.index == 2 %} bg-secondary {% elif loop.index == 3 %} bg-danger {% else %} bg-main {% endif %} fs-6"
+            >
+              {{ player.score }}
+            </span>
+          </div>
+
+          {% if not loop.last %}
+          <hr class="m-0" />
+          {% endif %} {% endfor %}
         </div>
       </div>
     </div>

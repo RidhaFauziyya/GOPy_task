@@ -2,112 +2,204 @@
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %} {% block content %}
-<div class="py-4 my-5 mx-5 px-3 px-lg-5">
-  {% with messages = get_flashed_messages(with_categories=true) %} {% for
-  category, message in messages %}
+<div class="container py-5">
+  <!-- Flash Message -->
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
   <div
-    class="alert alert-{{ 'success' if category == 'success' else 'danger' }}"
-    role="alert"
+    class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow-sm rounded-4 border-0 mb-4"
   >
     {{ message }}
+    <button class="btn-close" data-bs-dismiss="alert"></button>
   </div>
-  {% endfor %} {% endwith %}
+  {% endfor %} {% endif %} {% endwith %}
 
-  <div
-    class="d-flex flex-column flex-md-row gap-4 justify-content-center align-items-center mt-4"
-  >
-    <div class="col-lg-7">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h4>Lihat Perkiraan Cuaca</h4>
-        </div>
-        <div class="card-body px-lg-5 py-lg-3">
-          <form method="GET" action="/">
-            <div class="form-group mb-3">
-              <label for="city" class="form-label">Kota:</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">
-                  <i class="bi bi-geo-alt"></i>
+  <!-- Hero -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-main">🌤 GoPy Weather</h1>
+
+    <p class="text-muted fs-5">
+      Cari informasi cuaca terkini dan prakiraan cuaca hingga 3 hari ke depan.
+    </p>
+  </div>
+
+  <div class="row g-4 align-items-stretch">
+    <!-- Search Card -->
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-body p-4 p-lg-5">
+          <div class="mb-4">
+            <h3 class="fw-bold mb-2">Cari Kota</h3>
+
+            <p class="text-muted mb-0">
+              Masukkan nama kota untuk melihat kondisi cuaca saat ini.
+            </p>
+          </div>
+
+          <form method="GET" action="/" id="weatherForm">
+            <div class="mb-4">
+              <label class="form-label fw-semibold"> Nama Kota </label>
+
+              <div class="input-group input-group-lg">
+                <span class="input-group-text bg-white">
+                  <i class="bi bi-geo-alt-fill text-primary"></i>
                 </span>
+
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Masukkan nama kota"
+                  placeholder="Contoh: Surabaya"
                   name="city"
+                  required
                 />
               </div>
             </div>
-            <button type="submit" class="btn btn-primary">Lihat Cuaca</button>
+
+            <button class="btn btn-primary w-100 py-3 rounded-3 fw-semibold">
+              <i class="bi bi-search me-2"></i>
+
+              Lihat Perkiraan Cuaca
+            </button>
           </form>
         </div>
       </div>
     </div>
 
-    <div class="col-lg-5">
-      <div class="weather-widget shadow ml-lg-5 py-4 px-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <div class="location">{{ current.city }}</div>
-            <div>{{ current.time }}</div>
-            <div class="weather-desc">
-              {%- if current.current_rain > 0 %} Hujan {%- elif
-              current.temperature >= 30 %} Panas Terik {%- elif
-              current.temperature >= 20 %} Cerah Berawan {%- else %} Dingin {%-
-              endif %}
+    <!-- Weather Card -->
+    <div class="col-lg-7">
+      <div
+        class="card border-0 shadow-lg rounded-4 overflow-hidden weather-card h-100"
+      >
+        <div class="card-body p-5">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <span
+                class="badge bg-light text-primary px-3 py-2 rounded-pill mb-3"
+              >
+                <i class="bi bi-geo-alt-fill"></i>
+
+                {{ current.city }}
+              </span>
+
+              <h5 class="text-muted">{{ current.time }}</h5>
+
+              <h1 class="display-1 fw-bold mb-0 counter-temp">
+                {{ current.temperature }}°
+              </h1>
+
+              <p class="fs-4 text-secondary">
+                {% if current.current_rain > 0 %} Hujan {% elif
+                current.temperature >= 30 %} Panas Terik {% elif
+                current.temperature >= 20 %} Cerah Berawan {% else %} Dingin {%
+                endif %}
+              </p>
+            </div>
+
+            <div class="display-1 weather-icon">
+              {% if current.current_rain > 0 %} 🌧️ {% elif current.temperature
+              >= 30 %} ☀️ {% elif current.temperature >= 20 %} ⛅ {% else %} ❄️
+              {% endif %}
             </div>
           </div>
-          <div class="weather-icon">
-            {%- if current.current_rain > 0 %} 🌧️ {%- elif current.temperature
-            >= 30 %} ☀️ {%- elif current.temperature >= 20 %} ⛅ {%- else %} ❄️
-            {%- endif %}
+
+          <hr class="my-4" />
+
+          <div class="row text-center g-3">
+            <div class="col-md-4">
+              <div class="info-card p-3 rounded-4">
+                <i class="bi bi-thermometer-half fs-3 text-danger"></i>
+
+                <div class="mt-2 text-muted">Terasa</div>
+
+                <h4 class="fw-bold">{{ current.apparent_temperature }}°C</h4>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="info-card p-3 rounded-4">
+                <i class="bi bi-droplet-fill fs-3 text-primary"></i>
+
+                <div class="mt-2 text-muted">Humidity</div>
+
+                <h4 class="fw-bold">{{ current.humidity }}%</h4>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="info-card p-3 rounded-4">
+                <i class="bi bi-cloud-rain-heavy-fill fs-3 text-info"></i>
+
+                <div class="mt-2 text-muted">Curah Hujan</div>
+
+                <h4 class="fw-bold">{{ current.current_rain }} mm</h4>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="temp">{{ current.temperature }}°C</div>
-        <div class="d-flex justify-content-between mt-4 additional-info">
-          <div>Apparent: {{ current.apparent_temperature }}°C</div>
-          <div>Humidity: {{ current.humidity }}%</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="justify-content-center">
-    <div class="weather-table table-responsive shadow p-4 mt-5">
-      <h4 class="mb-4 text-center">Ramalan Cuaca 3 Hari</h4>
-      <table
-        class="table table-sm table-striped table-hover align-middle text-center"
-      >
-        <thead class="table-primary">
-          <tr>
-            <th>Hari</th>
-            <th>Suhu Terendah(&deg;C)</th>
-            <th>Suhu Tertinggi(&deg;C)</th>
-            <th>Cuaca</th>
-            <th>Suhu Siang Hari(&deg;C)</th>
-            <th>Suhu Malam Hari(&deg;C)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for day in forecast %}
-          <tr>
-            <td>{{ day.date }}</td>
-            <td>{{ day.temperature_2m_min }}</td>
-            <td>{{ day.temperature_2m_max }}</td>
-            <td class="icon">
-              {% if day.rain_sum > 0 %} 🌧️ Hujan {% elif day.temperature_2m_max
-              >= 30 %} ☀️ Panas {% elif day.temperature_2m_max >= 20 %} ⛅ Cerah
-              Berawan {% else %} ❄️ Dingin {% endif %}
-            </td>
-            <td>{{ day.day_temp }}</td>
-            <td>{{ day.night_temp }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <!-- Forecast -->
+  <div class="mt-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-main">📅 Ramalan Cuaca 3 Hari</h2>
+
+      <p class="text-muted">Prakiraan cuaca beberapa hari ke depan.</p>
+    </div>
+
+    <div class="row g-4">
+      {% for day in forecast %}
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card border-0 shadow-lg rounded-4 h-100 forecast-card">
+          <div class="card-body p-4 text-center">
+            <h5 class="fw-bold mb-4">{{ day.date }}</h5>
+
+            <div class="forecast-icon mb-3">
+              {% if day.rain_sum > 0 %} 🌧️ {% elif day.temperature_2m_max >= 30
+              %} ☀️ {% elif day.temperature_2m_max >= 20 %} ⛅ {% else %} ❄️ {%
+              endif %}
+            </div>
+
+            <h3 class="fw-bold mb-1">{{ day.temperature_2m_max }}°</h3>
+
+            <p class="text-muted mb-4">Min {{ day.temperature_2m_min }}°</p>
+
+            <span class="badge rounded-pill bg-light text-dark px-3 py-2 mb-4">
+              {% if day.rain_sum > 0 %} Hujan {% elif day.temperature_2m_max >=
+              30 %} Panas {% elif day.temperature_2m_max >= 20 %} Cerah Berawan
+              {% else %} Dingin {% endif %}
+            </span>
+
+            <hr />
+
+            <div class="row text-center">
+              <div class="col-6">
+                <i class="bi bi-brightness-high-fill text-warning fs-3"></i>
+
+                <div class="small text-muted mt-2">Siang</div>
+
+                <h5 class="fw-bold">{{ day.day_temp }}°</h5>
+              </div>
+
+              <div class="col-6">
+                <i class="bi bi-moon-stars-fill text-primary fs-3"></i>
+
+                <div class="small text-muted mt-2">Malam</div>
+
+                <h5 class="fw-bold">{{ day.night_temp }}°</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
     </div>
   </div>
-</div>
-{% endblock content %}
+  {% endblock content %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+  <!-- Specific JS goes HERE -->
+  {% block javascripts %}{% endblock javascripts %}
+</div>

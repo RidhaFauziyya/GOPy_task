@@ -14,9 +14,9 @@
   --gray-dark: #32325d;
   --light: #ced4da;
   --lighter: #e9ecef;
-  --primary: #FFD54F;
-  --secondary: #29434E;
-  --accent: #E1F5FE;
+  --primary: #ffd54f;
+  --secondary: #29434e;
+  --accent: #e1f5fe;
   --success: #2dce89;
   --info: #11cdef;
   --warning: #fb6340;
@@ -33,22 +33,36 @@
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: Open Sans, sans-serif;
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
-
-.bg-main{
-    background-color: var(--primary);
+  --font-family-monospace:
+    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
 }
 
-.bg-primary{
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 35%, #f8fbff 100%);
+}
+
+.bg-main {
+  background-color: var(--primary);
+}
+
+.btn {
+  border-radius: 12px;
+  padding: 0.7rem 1.3rem;
+  font-weight: 600;
+}
+
+.bg-primary {
   background-color: var(--secondary) !important;
 }
 
-.btn-primary{
+.btn-primary {
   background-color: var(--secondary);
   color: white;
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
   background-color: var(--primary);
   border: none;
   color: var(--secondary);
@@ -59,7 +73,7 @@
   text-decoration: none;
 }
 
-.url-text :hover{
+.url-text :hover {
   color: var(--secondary);
   text-decoration: underline;
 }
@@ -70,7 +84,7 @@
   color: white;
   border-radius: 15px;
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .weather-table {
   max-width: auto;
@@ -81,12 +95,9 @@
 }
 
 .icon {
-    font-size: 20px;
-  }
-
-.weather-icon {
-  font-size: 60px;
+  font-size: 20px;
 }
+
 .temp {
   font-size: 48px;
   font-weight: 700;
@@ -101,4 +112,219 @@
 }
 .additional-info {
   font-size: 14px;
+}
+
+.card {
+  border: none;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.text-main {
+  color: #364f6b;
+}
+
+.weather-card {
+  background: linear-gradient(135deg, #364f6b, #5b7db1);
+  color: white;
+}
+
+.weather-card .text-muted {
+  color: #dbe7ff !important;
+}
+
+.weather-card .text-secondary {
+  color: #eef3ff !important;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.weather-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.forecast-card {
+  transition: 0.35s;
+
+  overflow: hidden;
+}
+
+.forecast-card:hover {
+  transform: translateY(-10px);
+
+  box-shadow: 0 18px 40px rgba(54, 79, 107, 0.18) !important;
+}
+
+.forecast-icon {
+  font-size: 70px;
+
+  animation: bounce 3s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.forecast-card hr {
+  opacity: 0.15;
+}
+
+.forecast-card .badge {
+  font-size: 0.9rem;
+}
+
+.forecast-card h3 {
+  color: #364f6b;
+
+  font-size: 2.5rem;
+}
+
+.forecast-card {
+  border-radius: 22px;
+}
+
+.quiz-option {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 18px;
+
+  border: 2px solid #e9ecef;
+
+  border-radius: 15px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+  font-size: 17px;
+}
+
+.quiz-option:hover {
+  background: #f7f9fc;
+
+  border-color: #364f6b;
+
+  transform: translateX(5px);
+}
+
+.quiz-option input {
+  transform: scale(1.4);
+
+  accent-color: #364f6b;
+}
+
+.quiz-option span {
+  flex: 1;
+}
+
+.leaderboard-item {
+  transition: 0.3s;
+}
+
+.leaderboard-item:hover {
+  background: #f8f9ff;
+
+  transform: translateX(5px);
+}
+
+.bg-main {
+  background: #364f6b !important;
+}
+
+.text-main {
+  color: #364f6b;
+}
+
+.badge.bg-main {
+  background: #364f6b !important;
+}
+
+.min-vh-75 {
+  min-height: 75vh;
+}
+
+.auth-card {
+  transition: 0.35s;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+}
+
+.auth-icon {
+  width: 80px;
+  height: 80px;
+
+  margin: auto;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: linear-gradient(135deg, #364f6b, #5b7db1);
+
+  color: white;
+
+  font-size: 34px;
+}
+
+.form-control {
+  border-radius: 12px;
+
+  padding: 12px;
+}
+
+.input-group-text {
+  border-radius: 12px 0 0 12px;
+
+  background: #f8f9fa;
+}
+
+.form-control:focus {
+  border-color: #364f6b;
+
+  box-shadow: 0 0 0 0.2rem rgba(54, 79, 107, 0.15);
 }

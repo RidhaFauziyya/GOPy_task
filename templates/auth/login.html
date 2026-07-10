@@ -3,61 +3,84 @@
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %} {% block content %}
 <div class="container py-5">
-  <div class="card">
-    <div class="card-header bg-primary text-center text-white">
-      <h2>LOGIN</h2>
-    </div>
-    <div class="card-body px-lg-5 py-lg-3">
-      <div class="text-center text-muted mb-4">
-        <small>Login ke akun mu!</small>
-      </div>
-      {% with messages = get_flashed_messages(with_categories=true) %} {% for
-      category, message in messages %}
+  <div class="row justify-content-center align-items-center min-vh-75">
+    <div class="col-lg-5 col-md-8">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
       <div
-        class="alert alert-{{ 'success' if category == 'success' else 'danger' }}"
-        role="alert"
+        class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show shadow-sm rounded-4 border-0"
       >
         {{ message }}
+        <button class="btn-close" data-bs-dismiss="alert"></button>
       </div>
-      {% endfor %} {% endwith %}
-      <form role="form" action="/login" method="POST">
-        <div class="form-group mb-3">
-          <label for="username" class="form-label">Username</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">@</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Masukkan username"
-              name="username"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
+      {% endfor %} {% endif %} {% endwith %}
+
+      <div class="card border-0 shadow-lg rounded-4 auth-card">
+        <div class="card-body p-5">
+          <div class="text-center mb-5">
+            <div class="auth-icon mb-3">
+              <i class="bi bi-person-circle"></i>
+            </div>
+
+            <h2 class="fw-bold text-main">Selamat Datang 👋</h2>
+
+            <p class="text-muted">
+              Login untuk mulai bermain quiz dan melihat leaderboard.
+            </p>
+          </div>
+
+          <form method="POST">
+            <div class="mb-4">
+              <label class="form-label fw-semibold"> Username </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-person-fill"></i>
+                </span>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  name="username"
+                  placeholder="Masukkan username"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold"> Password </label>
+
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-lock-fill"></i>
+                </span>
+
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Masukkan password"
+                  required
+                />
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-100">Login</button>
+          </form>
+
+          <div class="text-center mt-4">
+            Belum punya akun?
+
+            <a
+              href="{{ url_for('register') }}"
+              class="fw-semibold text-decoration-none"
+            >
+              Daftar sekarang
+            </a>
           </div>
         </div>
-        <div class="form-group">
-          <label for="password" class="form-label">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control"
-            placeholder="Masukkan password"
-            aria-describedby="passwordHelpBlock"
-          />
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary my-4">Login</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-12 text-dark">
-      <p class="url-text">
-        Belum punya akun?
-        <a a href="{{ url_for('register') }}">Buat Akun Baru</a>
-      </p>
+      </div>
     </div>
   </div>
 </div>
